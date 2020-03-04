@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-const Root = () => {
-  return (
-    <h1>Root</h1>
-  );
-};
+import { requestData } from '../actions';
 
-export default Root;
+class Root extends Component {
+  componentDidMount() {
+    this.props.request();
+  }
+
+  render() {
+    console.log(this.props.data);
+    return (
+      <h1>
+        {this.props.data.title}
+      </h1>
+    )
+  }
+}
+
+const mapStateToProps = state => ({ data: state.data });
+
+const mapDispatchToProps = dispatch => ({
+  request: () => dispatch(requestData())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Root);
